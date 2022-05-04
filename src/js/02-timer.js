@@ -22,12 +22,12 @@ const options = {
 const fp = flatpickr("#datetime-picker", options);
 
 class CountdownTimer {
-    constructor({onTick, startBtn, input}) {
+    constructor({updateOnTick, startBtnIsActive, inputIsActive}) {
         this.countdownTime = 0;
         this.countdownID = null;
-        this.onTick = onTick;
-        this.startBtn = startBtn;
-        this.input = input;
+        this.updateOnTick = updateOnTick;
+        this.startBtnIsActive = startBtnIsActive;
+        this.inputIsActive = inputIsActive;
     }
 
     calculateCountdownTime(selectedDates) {
@@ -39,7 +39,7 @@ class CountdownTimer {
         }
 
         this.countdownTime = selectedTime - currentTime;
-        this.startBtn();
+        this.startBtnIsActive();
     }
 
     countdownStart() {
@@ -49,12 +49,12 @@ class CountdownTimer {
             }
 
             const time = this.convertMs(this.countdownTime);
-            this.onTick(time);
+            this.updateOnTick(time);
             this.countdownTime -= 1000;
         }, 1000)
 
-        this.startBtn();
-        this.input();
+        this.startBtnIsActive();
+        this.inputIsActive();
     }
 
     convertMs(ms) {
@@ -76,7 +76,7 @@ class CountdownTimer {
     }
 }
 
-const easyTimer = new CountdownTimer({onTick: updateCountdown, startBtn: startBtnDisabledToggle, input: inputDisabledToggle});
+const easyTimer = new CountdownTimer({updateOnTick: updateCountdown, startBtnIsActive: startBtnDisabledToggle, inputIsActive: inputDisabledToggle});
 
 refs.startBtn.disabled = true;
 refs.input.disabled = false;
