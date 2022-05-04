@@ -83,7 +83,7 @@ const easyTimer = new CountdownTimer(
         updateOnTick: updateCountdownEasyTimer,
         startBtnIsActive: startBtnIsActiveEasyTimer,
         startBtnIsDisabled: startBtnIsDisabledEasyTimer,
-        inputIsDisabled: startBtnIsDisabledEasyTimer,
+        inputIsDisabled: inputIsDisabledEasyTimer,
     });
 
 refs.startBtn.disabled = true;
