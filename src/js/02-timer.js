@@ -22,12 +22,13 @@ const options = {
 const fp = flatpickr("#datetime-picker", options);
 
 class CountdownTimer {
-    constructor({updateOnTick, startBtnIsActive, inputIsActive}) {
+    constructor({updateOnTick, startBtnIsActive, startBtnIsDisabled, inputIsDisabled}) {
         this.countdownTime = 0;
         this.countdownID = null;
         this.updateOnTick = updateOnTick;
         this.startBtnIsActive = startBtnIsActive;
-        this.inputIsActive = inputIsActive;
+        this.startBtnIsDisabled = startBtnIsDisabled;
+        this.inputIsDisabled = inputIsDisabled;
     }
 
     calculateCountdownTime(selectedDates) {
@@ -35,6 +36,7 @@ class CountdownTimer {
         const selectedTime = selectedDates[0].getTime();
 
         if (selectedTime < currentTime) {
+            this.startBtnIsDisabled();
             return Notify.failure("Please choose a date in the future");
         }
 
@@ -53,8 +55,8 @@ class CountdownTimer {
             this.countdownTime -= 1000;
         }, 1000)
 
-        this.startBtnIsActive();
-        this.inputIsActive();
+        this.startBtnIsDisabled();
+        this.inputIsDisabled();
     }
 
     convertMs(ms) {
@@ -76,24 +78,34 @@ class CountdownTimer {
     }
 }
 
-const easyTimer = new CountdownTimer({updateOnTick: updateCountdown, startBtnIsActive: startBtnDisabledToggle, inputIsActive: inputDisabledToggle});
+const easyTimer = new CountdownTimer(
+    {
+        updateOnTick: updateCountdownEasyTimer,
+        startBtnIsActive: startBtnIsActiveEasyTimer,
+        startBtnIsDisabled: startBtnIsDisabledEasyTimer,
+        inputIsDisabled: startBtnIsDisabledEasyTimer,
+    });
 
 refs.startBtn.disabled = true;
 refs.input.disabled = false;
 
 refs.startBtn.addEventListener('click', () => easyTimer.countdownStart());
 
-function updateCountdown({ days, hours, minutes, seconds }) {
+function updateCountdownEasyTimer({ days, hours, minutes, seconds }) {
     refs.days.textContent = days;
     refs.hours.textContent = hours;
     refs.minutes.textContent = minutes;
     refs.seconds.textContent = seconds;
 }
 
-function startBtnDisabledToggle() {
-    refs.startBtn.disabled = !refs.startBtn.disabled;
+function startBtnIsActiveEasyTimer() {
+    refs.startBtn.disabled = false;
 }
 
-function inputDisabledToggle() {
-    refs.input.disabled = !refs.input.disabled;
+function startBtnIsDisabledEasyTimer() {
+    refs.startBtn.disabled = true;
+}
+
+function inputIsDisabledEasyTimer() {
+    refs.input.disabled = true;
 }
