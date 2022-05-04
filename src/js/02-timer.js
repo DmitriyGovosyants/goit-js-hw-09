@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const refs = {
     startBtn: document.querySelector('[data-start]'),
@@ -34,7 +35,7 @@ class CountdownTimer {
         const selectedTime = selectedDates[0].getTime();
 
         if (selectedTime < currentTime) {
-            return alert("Please choose a date in the future");
+            return Notify.failure("Please choose a date in the future");
         }
 
         this.countdownTime = selectedTime - currentTime;
