@@ -3,9 +3,9 @@ Notify.init({ useIcon: false, });
 
 const formRef = document.querySelector('.form');
 
-formRef.addEventListener('submit', onClickCreatePromises);
+formRef.addEventListener('submit', handlePromisesCreate);
 
-function onClickCreatePromises(e) {
+function handlePromisesCreate(e) {
   e.preventDefault();
   const amountValue = +e.target.elements.amount.value;
   const delayValue = +e.target.elements.delay.value;
