@@ -22,11 +22,10 @@ const options = {
 const fp = flatpickr("#datetime-picker", options);
 
 class CountdownTimer {
-    constructor({updateOnTick, startBtnIsActive, startBtnIsDisabled, inputIsDisabled}) {
+    constructor({updateOnTick, startBtnIsDisabled, inputIsDisabled}) {
         this.countdownTime = 0;
         this.countdownID = null;
         this.updateOnTick = updateOnTick;
-        this.startBtnIsActive = startBtnIsActive;
         this.startBtnIsDisabled = startBtnIsDisabled;
         this.inputIsDisabled = inputIsDisabled;
     }
@@ -36,12 +35,12 @@ class CountdownTimer {
         const selectedTime = selectedDates[0].getTime();
 
         if (selectedTime < currentTime) {
-            this.startBtnIsDisabled();
+            this.startBtnIsDisabled(true);
             return Notify.failure("Please choose a date in the future");
         }
 
         this.countdownTime = selectedTime - currentTime;
-        this.startBtnIsActive();
+        this.startBtnIsDisabled(false);
     }
 
     countdownStart() {
@@ -55,8 +54,8 @@ class CountdownTimer {
             this.countdownTime -= 1000;
         }, 1000)
 
-        this.startBtnIsDisabled();
-        this.inputIsDisabled();
+        this.startBtnIsDisabled(true);
+        this.inputIsDisabled(true);
     }
 
     convertMs(ms) {
@@ -81,7 +80,6 @@ class CountdownTimer {
 const easyTimer = new CountdownTimer(
     {
         updateOnTick: updateCountdownEasyTimer,
-        startBtnIsActive: startBtnIsActiveEasyTimer,
         startBtnIsDisabled: startBtnIsDisabledEasyTimer,
         inputIsDisabled: inputIsDisabledEasyTimer,
     });
@@ -98,14 +96,10 @@ function updateCountdownEasyTimer({ days, hours, minutes, seconds }) {
     refs.seconds.textContent = seconds;
 }
 
-function startBtnIsActiveEasyTimer() {
-    refs.startBtn.disabled = false;
+function startBtnIsDisabledEasyTimer(state) {
+    refs.startBtn.disabled = state;
 }
 
-function startBtnIsDisabledEasyTimer() {
-    refs.startBtn.disabled = true;
-}
-
-function inputIsDisabledEasyTimer() {
-    refs.input.disabled = true;
+function inputIsDisabledEasyTimer(state) {
+    refs.input.disabled = state;
 }
