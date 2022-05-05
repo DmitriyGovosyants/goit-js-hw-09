@@ -7,12 +7,12 @@ form.addEventListener('submit', onClickCreatePromises);
 
 function onClickCreatePromises(e) {
   e.preventDefault();
-  const amountRef = +e.target.elements.amount.value;
-  const delayRef = +e.target.elements.delay.value;
-  const stepRef = +e.target.elements.step.value;
+  const amountValue = +e.target.elements.amount.value;
+  const delayValue = +e.target.elements.delay.value;
+  const stepValue = +e.target.elements.step.value;
 
-  for (let i = 1; i <= amountRef; i += 1) {
-    let stepForCurrentPromise = delayRef + stepRef * (i - 1);
+  for (let i = 1; i <= amountValue; i += 1) {
+    let stepForCurrentPromise = delayValue + stepValue * (i - 1);
     
     createPromise(i, stepForCurrentPromise)
       .then(({ position, delay }) => {
